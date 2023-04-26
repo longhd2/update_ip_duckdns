@@ -14,25 +14,26 @@ Cài đặt trong file: duckdns.py
 
 chạy thủ công:
 
-chmod +x duckdns.py
+    cd /home/pi/update_ip_duckdns
+    chmod +x duckdns.py
+    python duckdns.py
+    
+Nếu in ra dòng chữ sau là thành công
 
-cd /home/pi/update_ip_duckdns
-
-python duckdns.py
+    b'OK'
 
 
+Thiết lập chạy tự động, 10p kiểm tra sau 10 phút, bạn có thể thay đổi
 
-Chạy tự động, 10p kiểm tra sau 10 phút
+    crontab -e
+    */10 * * * * /usr/bin/python /home/pi/duckdns.py >/dev/null 2>&1
 
-crontab -e
+Để xem log auto đã hoạt động chưa
 
-*/10 * * * * /usr/bin/python /home/pi/duckdns.py >/dev/null 2>&1
-
-xem log: 
-
-sudo grep CRON /var/log/syslog
+    sudo grep CRON /var/log/syslog
 
 Nếu hiện dạng như sau scrip đã hoạt động
 
-Apr 27 10:00:01 host CRON[1234]: (root) CMD (/usr/bin/python3 /home/pi/update_ip_duckdns/duckdns.py >> /home/pi/cron.log 2>&1)
+    Apr 27 10:00:01 host CRON[1234]: (root) CMD (/usr/bin/python3 /home/pi/update_ip_duckdns/duckdns.py >> /home/pi/cron.log 2>&1)
 
+Chúc bạn thành công!
