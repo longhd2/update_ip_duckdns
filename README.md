@@ -1,15 +1,14 @@
 # update_ip_duckdns
 Mở terminal trên Linux.
 
-'''
-sudo apt-get install git -y && git clone https://github.com/longhd2/update_ip_duckdns
-'''
+
+    sudo apt-get install git -y && git clone https://github.com/longhd2/update_ip_duckdns
+
 
 Cài đặt trong file: duckdns.py
 
 
     domain = 'vipi'# domain = "yourdomain"
-    
     token = 'e428b8da-5316-49f4-88e0-209f41xx'# token = "yourtoken"
 
 
