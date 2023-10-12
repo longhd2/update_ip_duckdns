@@ -1,13 +1,35 @@
+
+# Edit crontab
+# crontab -e 
+
+# Thêm dòng sau (chạy script cập nhật mỗi 10 phút)
+# */10 * * * * /usr/bin/python /home/pi/duckdns.py >/dev/null 2>&1
+
+
+#Để sử dụng lệnh service mà không cần quyền root, bạn có thể thêm 2 thư mục /sbin và /usr/sbin vào biến PATH:
+#export PATH=$PATH:/sbin:/usr/sbin
+
+# kiểm tra service nếu Active: active (running) là đã hoạt động
+# service cron status
+
 import requests
 import os
+DOMAIN = "vipi"
+TOKEN = "e428b8da-5316-49f4-88e0-209f41259cfa" 
 
-def update_dns():
-    domain = 'vipi'# domain = "yourdomain"
-    token = 'e428b8da-5316-49f4-88e0-209f41xx'# token = "yourtoken"
-    #url = "https://www.duckdns.org/update?domains=vipi&token=e428b8da-5316-49f4-88e0-209f41259cxx"
-    url = f"https://www.duckdns.org/update?domains={domain}&token={token}"
-    response = requests.get(url)
-    print(response.content)
+def update_ip():
+  url = f"https://www.duckdns.org/update?domains={DOMAIN}&token={TOKEN}&ip="
+  
+  current_ip = get_current_ip()
+  url += current_ip
+
+  response = requests.get(url)
+  if response.text.startswith("OK"):
+    print(f"Update IP thành công:  {current_ip}") 
+    return True
+  else:
+    print(f"Không Update được IP: {response.text}")
+    return False
 
 def get_current_ip():
     response = requests.get("https://api.ipify.org")
@@ -28,7 +50,9 @@ def main():
             f.write(new_ip)
 
         # Thực hiện cập nhật địa chỉ IP mới lên DuckDNS
-        update_dns()
+        update_ip()
+    else:
+        print(f"Không có thay đổi IP, không cập nhật lại IP: {new_ip}")
 
 if __name__ == "__main__":
     main()
